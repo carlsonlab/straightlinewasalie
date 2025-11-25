@@ -6,6 +6,9 @@ library(MoMAColors)
 library(vroom)
 library(cowplot)
 
+# devtools::install_github("teunbrand/ggarrow")
+library(ggarrow)
+
 # setwd("~/Documents/Github/straightlinewasalie/Data")
 
 # Access virus data
@@ -18,7 +21,7 @@ virion %>%
   mutate(Host = str_to_lower(Host), Virus = str_to_lower(Virus)) %>%
   filter(DetectionMethod %in% c("PCR/Sequencing","Isolation/Observation")) %>%
   filter(HostClass=='mammalia') %>%
-  filter(HostOrder=="chiroptera") %>%
+  filter(HostOrder=="chiroptera", VirusFamily=="coronaviridae") %>%
   filter(!(Host=='homo sapiens')) %>%
   filter(!is.na(Host)) %>% filter(!is.na(Virus)) %>%
   select(Host, Virus, VirusGenus, VirusFamily, ICTVRatified) %>%
@@ -171,6 +174,21 @@ ggplot(
   est_plot, aes(x=h, y=symbionts, group=subset, color=subset)
   ) +
   geom_line(size=1) +
+  geom_arrow_curve(
+    x=100,
+    y=20,
+    xend=76,
+    yend=37,
+    color="black",
+    curvature=-0.5,
+    arrow_head = arrow_head_halfwing()
+    ) +
+  # ss = sg
+  annotate("text",
+           x=103,
+           y=18,
+           label=expression(s[s]==s[g]),
+           hjust=0) +
   scale_color_manual(
     values=straightLine[c(4, 7, 10)],
     name="Symbiont set",
@@ -179,7 +197,7 @@ ggplot(
   theme_bw(base_size=12) +
   theme(
     legend.position="inside",
-    legend.position.inside=c(0.15,0.8)
+    legend.position.inside=c(0.2,0.8)
   )
 
 }
