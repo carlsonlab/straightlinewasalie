@@ -19,7 +19,7 @@ virion %>%
   filter(HostClass=='mammalia') %>%
   filter(!(Host=='homo sapiens')) %>%
   filter(!is.na(Host)) %>% filter(!is.na(Virus)) %>%
-  select(Host, Virus, VirusGenus, VirusFamily, ICTVRatified) %>% 
+  select(Host, Virus) %>% 
   distinct() -> h
 
 hosts <- unique(h$Host)
