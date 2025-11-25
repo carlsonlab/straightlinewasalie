@@ -154,34 +154,6 @@ pies <- ggplot(virus_groups_plot, aes(x="", y=estVirus, fill=`Virus family`)) +
 
 # pies
 
-ggplot(aes(x="", y=VirusesPerHost, fill=`Virus family`)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0) + theme_void() +
-  ggtitle("Carroll et al. (2018)", subtitle="Raw metagenomic samples \nuncorrected for host range") +
-  theme(plot.title = element_text(hjust = 0.5),
-        text = element_text(size = 10),
-        plot.subtitle = element_text(hjust=0.5)) +
-  scale_fill_manual(values=cols) -> g1
-#virus_groups %>%
-#  ggplot(aes(x="", y=ScalingICTV, fill=Family)) +
-#  geom_bar(stat="identity", width=1) +
-#  coord_polar("y", start=0) + theme_void()  +
-#  ggtitle("Corrected for host range") +
-#  theme(plot.title = element_text(hjust = 0.5)) +
-#  scale_fill_manual(values=cols) -> g2
-
-virus_groups_nopico %>%
-  mutate(`Virus family` = factor(Family, levels = c("Adenoviridae","Astroviridae","Coronaviridae","Orthoherpesviridae","Paramyxoviridae","Parvoviridae","Picornaviridae","Polyomaviridae","Rhabdoviridae","Sedoreoviridae","Picobirnaviridae"))) %>%
-  ggplot(aes(x="", y=ScalingICTV, fill=`Virus family`)) +
-  geom_bar(stat="identity", width=1) +
-  coord_polar("y", start=0) + theme_void()  +
-  ggtitle("This study (2025)", subtitle="Global estimates broken down\nfor vertebrate-infective groups") +
-  theme(plot.title = element_text(hjust = 0.5),
-        text = element_text(size = 10),
-        plot.subtitle = element_text(hjust=0.5)) +
-  scale_fill_manual(values=cols) -> g3
-#g1 + g2 + g3 + plot_layout(guides = 'collect')
-
 ### no picobirnas
 
 virus_groups_nopb <- virus_groups %>% filter(!(Family == 'Picobirnaviridae'))
@@ -238,9 +210,7 @@ df %>%
   scale_fill_manual(values = met.brewer("Juarez",6)[c(3,2,6,1)]) +
   theme(legend.position = 'n') -> g4
 
-#####
-
-#g4/plot_spacer()/(g1 + g3 + plot_layout(guides = 'collect')) + plot_layout(heights = c(1, 0.05, 1.5), widths = c(1,1.3,0.6))
+##### assembly and write-out
 
 library("cowplot")
 
