@@ -13,7 +13,7 @@ library(ggarrow)
 
 # Access virus data
 # library(virionData)
-# get_versioned_data(version = "17636397", dir_path = "./Temp")
+# get_versioned_data(version = "17636397", dir_path = "./Data/Temp")
 
 # Set up virus data
 virion <- vroom("./Data/Temp/17636397/virion.csv.gz")
@@ -173,31 +173,32 @@ straightLine <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","
 ggplot(
   est_plot, aes(x=h, y=symbionts, group=subset, color=subset)
   ) +
-  geom_line(size=1) +
+  geom_line(size=1.2) +
   geom_arrow_curve(
     x=100,
     y=20,
     xend=76,
     yend=37,
     color="black",
-    curvature=-0.5,
-    arrow_head = arrow_head_halfwing()
+    curvature=-0.55,
+    arrow_head = arrow_head_halfwing(),
+    linewidth=1
     ) +
   # ss = sg
   annotate("text",
            x=103,
            y=18,
-           label=expression(s[s]==s[g]),
+           label=expression(S[s]==S[g]),
            hjust=0) +
   scale_color_manual(
-    values=straightLine[c(4, 7, 10)],
+    values=straightLine[c(4, 6, 7)],
     name="Symbiont set",
     labels=c("Total", "Generalists", "Specialists")) +
   labs(x="Hosts", y="Symbionts") +
-  theme_bw(base_size=12) +
+  theme_bw(base_size=14) +
   theme(
     legend.position="inside",
-    legend.position.inside=c(0.2,0.8)
+    legend.position.inside=c(0.25,0.8)
   )
 
 }
