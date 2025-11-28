@@ -475,7 +475,7 @@ network_subset_2 %>%
   ggplot(aes(y = z, x = eta_g, color = type)) + 
   geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
   theme_bw() +
-  xlab("Average host range of generalists") + ylab("Power law exponent (z)") +
+  xlab("Average host range of generalists (log10)") + ylab("Power law exponent (z)") +
   geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
   scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) + 
   guides(fill = guide_legend(override.aes = list(size=5))) +
