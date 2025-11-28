@@ -133,16 +133,17 @@ if(length(gen_mat)==0) {
   modularity_generalists <- NA
 } else {
   modularity_generalists <- modularity(cluster_walktrap(graph_from_edgelist(as.matrix(generalist_network))))
-  nestedness_generalists <- nested(gen_mat, method = 'NODF2')
-  connectance_generalists <- networklevel(gen_mat, index = "connectance")
+  nestedness_generalists <- tryCatch(nested(gen_mat, method = 'NODF2'), error = function(e) {NA})
+  connectance_generalists <- tryCatch(networklevel(gen_mat, index = "connectance"), warning = function(e) {NA})
 }
 
 # Write out the data
 network_data[paste0(network_data$names,".csv") == networks[[i]],3:ncol(network_data)] <- c(hosts, symbionts, obs_specialists, obs_generalists, sigma_s, sigma_g, eta_g, eta_bar, modularity, modularity_generalists, nestedness, nestedness_generalists, connectance, connectance_generalists, host_sharing, z)
 }
 
-# Some final changes to the data frame
-
+# Some final changes to the data frame:
+# No tiny tiny networks
+network_data <- network_data %>% filter(hosts >= 5, symbionts >= 5)
 network_data$prop_s <- network_data$specialists/network_data$symbionts 
 network_data$ratio_s <- network_data$specialists/network_data$generalists 
 
@@ -171,6 +172,12 @@ network_data %>%
 network_data %>%
   ggplot(aes(x = type, y = connectance, group = type, color = type)) + 
   geom_boxplot() + geom_jitter()
+network_data %>%
+  ggplot(aes(x = type, y = prop_s, group = type, color = type)) + 
+  geom_boxplot() + geom_jitter()
+network_data %>%
+  ggplot(aes(x = type, y = ratio_s, group = type, color = type)) + 
+  geom_boxplot() + geom_jitter()
 
 # Old patterns we wanted to reproduce and then explain to ourselves
 network_data %>%
@@ -182,17 +189,17 @@ network_data %>%
 
 # Codependency is just scaling stuff. Bam. Explained!
 network_data %>%
-  ggplot(aes(x = z, y = eta_bar, group = type, color = type)) + geom_point()
+  ggplot(aes(y = z, x = eta_bar, group = type, color = type)) + geom_point() + scale_x_log10()
 network_data %>%
-  ggplot(aes(x = z, y = eta_g, group = type, color = type)) + geom_point()
+  ggplot(aes(y = z, x = eta_g, group = type, color = type)) + geom_point() + scale_x_log10()
 network_data %>%
-  ggplot(aes(x = z, y = sigma_s, group = type, color = type)) + geom_point()
+  ggplot(aes(y = z, x = sigma_s, group = type, color = type)) + geom_point() + scale_x_log10()
 network_data %>%
-  ggplot(aes(x = z, y = sigma_g, group = type, color = type)) + geom_point
+  ggplot(aes(y = z, x = sigma_g, group = type, color = type)) + geom_point() + scale_x_log10()
 network_data %>%
-  ggplot(aes(x = z, y = prop_s, group = type, color = type)) + geom_point()
+  ggplot(aes(y = z, x = prop_s, group = type, color = type)) + geom_point()
 network_data %>%
-  ggplot(aes(x = z, y = ratio_s, group = type, color = type)) + geom_point()
+  ggplot(aes(y = z, x = ratio_s, group = type, color = type)) + geom_point()
 
 # Are specialists spandrels? Maybe
 network_data %>%
@@ -248,26 +255,173 @@ network_data %>%
   ggplot(aes(x = connectance_generalists, y = modularity_generalists, group = type, color = type)) +
   geom_point()
 
+# Proportion specialists correlates with generalist network attributes but doesn't constrain them
+network_data %>%
+  ggplot(aes(x = prop_s, y = modularity_generalists, group = type, color = type)) +
+  geom_point()
+network_data %>%
+  ggplot(aes(x = prop_s, y = nestedness_generalists, group = type, color = type)) +
+  geom_point()
+network_data %>%
+  ggplot(aes(x = prop_s, y = connectance_generalists, group = type, color = type)) +
+  geom_point()
 
-
+# Proportion specialists correlates with generalist network attributes but doesn't constrain them
+network_data %>%
+  ggplot(aes(x = prop_s, y = eta_bar, group = type, color = type)) +
+  geom_point()
+network_data %>%
+  ggplot(aes(x = prop_s, y = eta_g, group = type, color = type)) +
+  geom_point()
+network_data %>%
+  ggplot(aes(x = prop_s, y = sigma_s, group = type, color = type)) +
+  geom_point()
+network_data %>%
+  ggplot(aes(x = prop_s, y = sigma_g, group = type, color = type)) +
+  geom_point()
 
 
 
 # A clean, nice figure about network constraints
 
-network_subset <- network_data %>% filter(!(type %in% c("Plant-Ant")))
+table(network_data$type)
+network_subset <- network_data %>% 
+  filter(!(type %in% c("Plant-Ant", "Plant-Herbivore","Anemone-Fish"))) %>%
+  mutate(type = recode(type, !!!c("Pollination" = "Plant-Pollinator", "Seed Dispersal" = "Plant-Seed Disperser"))) %>%
+  mutate(type = factor(type, levels = c("Host-Parasite","Plant-Seed Disperser","Plant-Pollinator"))) %>%
+  mutate(nestedness = nestedness/100, nestedness_generalists = nestedness_generalists/100) %>%
+  arrange(desc(type))
+
+beths <- c("#DD7188","#6F8844","#90C2DB","#8B6654","#F4D337","#5AB8DA","#AC3F3E")
+beth0 <- beths[c(1,5,6)]
+
+network_subset %>%
+  ggplot(aes(x = prop_s, y = modularity)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists") + ylab("Modularity (full network)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_prop_m
+
+network_subset %>%
+  ggplot(aes(x = prop_s, y = connectance)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists") + ylab("Connectance (full network)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_prop_c
+  
+network_subset %>%
+  ggplot(aes(x = prop_s, y = nestedness)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists") + ylab("Nestedness (full network)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_prop_n
+
+scatter_prop_c + scatter_prop_m + scatter_prop_n -> scatter_prop
+
+
 
 network_subset %>%
   ggplot(aes(x = modularity, y = modularity_generalists, group = type, color = type)) +
-  geom_point() + 
+  geom_segment(aes(x = 0, xend = 0.7, y = 0, yend = 0.7), color = 'gray20', lwd = 1, lineend = "round", linetype = 'dashed') + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
   theme_bw() +
-  xlim(0,1) + ylim(0,1)
+  xlab("Modularity (full network)") + ylab("Modularity (generalists)") +
+  xlim(0,0.7) + ylim(0,0.7) +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_m
+
 network_subset %>%
   ggplot(aes(x = connectance, y = connectance_generalists, group = type, color = type)) +
-  geom_point() + 
-  theme_bw()+
-  xlim(0,1) + ylim(0,1)
+  geom_segment(aes(x = 0, xend = 0.75, y = 0, yend = 0.75), color = 'gray20', lwd = 1, lineend = "round", linetype = 'dashed') + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Connectance (full network)") + ylab("Connectance (generalists)") +
+  xlim(0,0.75) + ylim(0,0.75) +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_c
+
 network_subset %>%
   ggplot(aes(x = nestedness, y = nestedness_generalists, group = type, color = type)) +
-  geom_point() + 
-  theme_bw()
+  geom_segment(aes(x = 0, xend = 1, y = 0, yend = 1), color = 'gray20', lwd = 1, lineend = "round", linetype = 'dashed') + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() + 
+  xlab("Nestedness (full network)") + ylab("Nestedness (generalists)") +
+  xlim(0,1) + ylim(0,1) +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_n
+
+scatter <- scatter_c + scatter_m + scatter_n
+
+
+
+network_subset %>%
+  select(type, modularity, modularity_generalists) %>% 
+  pivot_longer(cols = c(modularity, modularity_generalists)) %>% 
+  mutate(name = recode(name, !!!c("modularity" = "Full network", "modularity_generalists" = "Generalists"))) %>%
+
+  ggplot(aes(x = type, y = value)) +
+  geom_point(aes(group = name, fill = type), position = position_jitterdodge(jitter.width = 0.5, dodge.width = 0.75), size = 1.8, shape = 21, alpha = 0.25, color = 'black') + 
+  geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) + 
+  theme_bw() + 
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank()) + 
+  scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) + 
+  xlab("Type of symbiosis") + ylab("Modularity") + 
+  guides(fill = 'none', color = 'none') + 
+  scale_fill_manual(values = beth0, name = NULL) +
+  
+  ylim(0,1) -> bars_m
+
+network_subset %>%
+  select(type, connectance, connectance_generalists) %>% 
+  pivot_longer(cols = c(connectance, connectance_generalists)) %>% 
+  mutate(name = recode(name, !!!c("connectance" = "Full network", "connectance_generalists" = "Generalists"))) %>%
+
+  ggplot(aes(x = type, y = value)) +
+  geom_point(aes(group = name, fill = type), position = position_jitterdodge(jitter.width = 0.5, dodge.width = 0.75), size = 1.8, shape = 21, alpha = 0.25, color = 'black') + 
+  geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) + 
+  theme_bw() + 
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank()) + 
+  scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) + 
+  xlab("Type of symbiosis") + ylab("Connectance") + 
+  guides(fill = 'none', color = 'none') + 
+  scale_fill_manual(values = beth0, name = NULL) +
+  
+  ylim(0,1) -> bars_c
+
+network_subset %>%
+  select(type, nestedness, nestedness_generalists) %>% 
+  pivot_longer(cols = c(nestedness, nestedness_generalists)) %>% 
+  mutate(name = recode(name, !!!c("nestedness" = "Full network", "nestedness_generalists" = "Generalists"))) %>%
+  
+  ggplot(aes(x = type, y = value)) +
+  geom_point(aes(group = name, fill = type), position = position_jitterdodge(jitter.width = 0.5, dodge.width = 0.75), size = 1.8, shape = 21, alpha = 0.25, color = 'black') + 
+  geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) + 
+  theme_bw() + 
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank()) + 
+  scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "gray0")), name = NULL) + 
+  xlab("Type of symbiosis") + ylab("Nestedness") +  
+  guides(fill = 'none', color = 'none') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  
+  ylim(0,1) -> bars_n
+
+bars <- bars_c + bars_m + bars_n
+
+((scatter_prop_c + scatter_prop_m + scatter_prop_n)/(scatter_c + scatter_m + scatter_n)/(bars_c + bars_m + bars_n)) + 
+  plot_layout(guides = 'collect') & theme(legend.position = 'top', legend.text = element_text(size = 11), legend.key.height = unit(1, 'cm'))
+
+ggsave(filename = "C:/Users/cjc277/OneDrive - Yale University/Documents/Github/straightlinewasalie/Figures/constraints.pdf", 
+       width = 10, height = 10, units = "in")
+
