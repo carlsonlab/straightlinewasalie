@@ -281,6 +281,16 @@ network_data %>%
   geom_point()
 
 
+# Quick check: are constraints real?
+network_data %>%
+  ggplot(aes(x = prop_s, y = eta_g, group = type, color = log(hosts))) +
+  geom_point(size = 2) + theme_bw() +
+  scale_color_gradient2(low='red', mid='yellow', high='blue')
+
+
+
+
+
 
 # A clean, nice figure about network constraints
 
@@ -425,3 +435,54 @@ bars <- bars_c + bars_m + bars_n
 ggsave(filename = "C:/Users/cjc277/OneDrive - Yale University/Documents/Github/straightlinewasalie/Figures/constraints.pdf", 
        width = 10, height = 10, units = "in")
 
+
+
+
+
+# A clean, nice figure about power laws
+
+network_subset_2 <- network_data %>% 
+  mutate(type = recode(type, !!!c("Pollination" = "Plant-Pollinator", 
+                                  "Seed Dispersal" = "Plant-Seed Disperser")))
+
+network_subset_2 %>%
+  ggplot(aes(y = z, x = prop_s, color = type)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists") + ylab("Power law exponent (z)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> p1
+network_subset_2 %>%
+  ggplot(aes(y = z, x = sigma_s, color = type)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Specialist symbionts per host (log10)") + ylab("Power law exponent (z)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) +
+  scale_x_log10() -> p2
+network_subset_2 %>%
+  ggplot(aes(y = z, x = sigma_g, color = type)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Generalist symbionts per host (log10)") + ylab("Power law exponent (z)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) +
+  scale_x_log10() -> p3
+network_subset_2 %>%
+  ggplot(aes(y = z, x = eta_g, color = type)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Average host range of generalists") + ylab("Power law exponent (z)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) +
+  scale_x_log10() -> p4
+
+((p1+p2)/(p3+p4)) + plot_layout(guides='collect') & theme(legend.position = 'bottom', legend.text = element_text(size = 9.5))
+
+
+ggsave(filename = "~/Documents/Github/straightlinewasalie/Figures/power-law-exponents.pdf", 
+       width = 10, height = 11, units = "in")
