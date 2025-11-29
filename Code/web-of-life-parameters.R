@@ -478,3 +478,7 @@ network_subset_2 %>%
 
 ggsave(filename = "~/Documents/Github/straightlinewasalie/Figures/power-law-exponents.pdf",
        width = 10, height = 11, units = "in")
+
+
+summary(lm(z ~ prop_s + log10(sigma_s) + log10(sigma_g) + log10(eta_g), data = network_subset_2))
+summary(lm(z ~ prop_s + log10(eta_g), data = network_subset_2))
