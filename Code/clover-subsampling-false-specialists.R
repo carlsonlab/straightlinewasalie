@@ -3,7 +3,6 @@ library(tidyverse)
 library(patchwork)
 library(MetBrewer)
 
-straightLine <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","#2F7858","#6D8842","#8BAA81","#E23639","#DF6F85")
 
 met <- c("#F4C40F", "#FE9B00", "#D8443C", "#DE597C", "#E87B89", "#9F5691", "#633372", "#1F6E9C", "#2B9B81", "#92C051")
 
@@ -76,27 +75,65 @@ if(cl==1){
   df1$type = 'Idealized (complete)'
   df2$type = 'Realistic (incomplete)'
   df <- bind_rows(df1, df2)
-  df %>%
-    ggplot(aes(x = hosts, y = false_specialists, color = type, group = type)) +
-    theme_bw() +
-    geom_point(alpha = 0.05) +
-    scale_color_manual(values = c(thomas[8], thomas[2])) +
-    ggtitle('Mammalian viruses') + xlab("Hosts") + ylab("Proportion of false specialists") +
-    guides(colour = guide_legend(override.aes = list(alpha = 1))) +
-    theme(legend.position = c(0.25, 0.1), legend.title = element_blank()) -> g1
 } else {
   df1$type = 'Idealized (complete)'
   df2$type = 'Realistic (incomplete)'
   df3 <- bind_rows(df1, df2)
-  df3 %>%
-    ggplot(aes(x = hosts, y = false_specialists, color = type, group = type)) +
-    theme_bw() +
-    geom_point(alpha = 0.05) +
-    scale_color_manual(values = c(thomas[8], thomas[2])) +
-    ggtitle('Vertebrate parasites') + xlab("Hosts") + ylab("Proportion of false specialists") +
-    guides(colour = guide_legend(override.aes = list(alpha = 1))) +
-    theme(legend.position = c(0.25, 0.1), legend.title = element_blank()) -> g2
+
 }
 
 }
 
+# Save for later --------------------------------
+
+write.table(df, "Output/false_specialists_mammalian.csv", sep=",", col.names=TRUE, row.names=FALSE)
+# df <- read.csv("Output/false_specialists_mammalian.csv")
+
+write.table(df3, "Output/false_specialists_vertebrate.csv", sep=",", col.names=TRUE, row.names=FALSE)
+# df3 <- read.csv("Output/false_specialists_vertebrate.csv")
+
+# Figures ---------------------------------------
+
+straightLine <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","#2F7858","#6D8842","#8BAA81","#E23639","#DF6F85")
+
+
+g1 <- ggplot(df, aes(x = hosts, y = false_specialists, color = type, group = type)) +
+  theme_bw() +
+  geom_point(alpha = 0.05) +
+  scale_color_manual(values = straightLine[c(4,10)]) +
+  labs(
+    title='Mammalian viruses',
+    x="Hosts",
+    y="Proportion of false specialists") +
+  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+  theme(legend.position = c(0.25, 0.1), legend.title = element_blank())
+# g1
+
+g2 <- ggplot(df3, aes(x = hosts, y = false_specialists, color = type, group = type)) +
+  theme_bw() +
+  geom_point(alpha = 0.05) +
+  scale_color_manual(values = straightLine[c(4,10)]) +
+  ggtitle('Vertebrate parasites') + xlab("Hosts") + ylab("Proportion of false specialists") +
+  guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+  theme(legend.position = c(0.25, 0.1), legend.title = element_blank())
+
+# OR...
+
+df4 <- rbind(
+  data.frame(df, set="Mammalian viruses"),
+  data.frame(df3, set="Vertebrate helminth parasites")
+  )
+
+{cairo_pdf("Figures/false-specialists.pdf", width=6.5, height=3.5)
+
+ggplot(df4, aes(x = hosts, y = false_specialists, color = type, group = type)) +
+  geom_point(alpha = 0.05) +
+  facet_wrap("set", scale="free_x") +
+  scale_color_manual(values = straightLine[c(4,9)], labels=c("Idealized (complete) sampling", "Realistic (incomplete)")) +
+  labs(x="Hosts sampled", y="Proportion of false specialists") +
+  guides(colour = guide_legend(override.aes = c(alpha = 1))) +
+  theme_bw(base_size = 12) +
+  theme(legend.position="inside", legend.position.inside = c(0.8, 0.9), legend.title = element_blank(), legend.key.size = unit(0.4, "cm"))
+
+}
+dev.off()
