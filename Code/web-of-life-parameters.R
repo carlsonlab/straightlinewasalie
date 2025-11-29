@@ -371,6 +371,7 @@ boxplot_m <- ggplot(network_subset_ln, aes(x = type, y = value)) +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
   labs(x="Type of symbiosis", y="Modularity") +
+  scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
   ylim(0,1) +
@@ -388,6 +389,7 @@ boxplot_c <- ggplot(network_subset_c_ln, aes(x = type, y = value)) +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
   labs(x="Type of symbiosis", y="Connectance") +
+  scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
   ylim(0,1) +
@@ -404,6 +406,7 @@ boxplot_n <- ggplot(network_subset_n_ln, aes(x = type, y = value)) +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
   labs(x="Type of symbiosis", y="Nestedness") +
+  scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
   ylim(0,1) +
@@ -414,7 +417,8 @@ boxplot_n <- ggplot(network_subset_n_ln, aes(x = type, y = value)) +
 boxplots <- boxplot_c + boxplot_m + boxplot_n
 
 {cairo_pdf("Figures/constraints.pdf", width=10, height=10)
-((scatter_prop_c + scatter_prop_m + scatter_prop_n)/(scatter_c + scatter_m + scatter_n)/(boxplot_c + boxplot_m + boxplot_n)) +
+
+  (((scatter_prop_c + scatter_prop_m + scatter_prop_n)+theme(plot.margin = unit(c(0,0,0.75,0.25), "cm")))/((scatter_c + scatter_m + scatter_n)+theme(plot.margin = unit(c(0,0,0.75,0.25), "cm")))/(boxplot_c + boxplot_m + boxplot_n)) +
   plot_layout(guides = 'collect') & theme(legend.position = 'top', legend.text = element_text(size = 11), legend.key.height = unit(1, 'cm'))
 
 }
