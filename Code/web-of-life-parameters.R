@@ -435,9 +435,40 @@ bars <- bars_c + bars_m + bars_n
 ggsave(filename = "C:/Users/cjc277/OneDrive - Yale University/Documents/Github/straightlinewasalie/Figures/constraints.pdf", 
        width = 10, height = 10, units = "in")
 
+# A nice clean supplement figure about what happens when you take them out
 
+network_subset %>%
+  ggplot(aes(x = prop_s, y = modularity_generalists)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists (full network)") + ylab("Modularity (generalists)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_prop_mg
 
+network_subset %>%
+  ggplot(aes(x = prop_s, y = connectance_generalists)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists (full network)") + ylab("Connectance (generalists)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_prop_cg
 
+network_subset %>%
+  ggplot(aes(x = prop_s, y = nestedness_generalists)) + 
+  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') + 
+  theme_bw() +
+  xlab("Proportion of specialists (full network)") + ylab("Nestedness (generalists)") +
+  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
+  scale_fill_manual(values = beth0, name = NULL) + 
+  guides(fill = guide_legend(override.aes = list(size=5))) -> scatter_prop_ng
+
+scatter_prop_cg + scatter_prop_mg + scatter_prop_ng +
+  plot_layout(guides = 'collect') & theme(legend.position = 'top', legend.text = element_text(size = 11), legend.key.height = unit(1, 'cm'))
+
+ggsave(filename = "~/Documents/Github/straightlinewasalie/Figures/constraints2.pdf", 
+       width = 10, height = 4, units = "in")
 
 # A clean, nice figure about power laws
 
@@ -485,4 +516,4 @@ network_subset_2 %>%
 
 
 ggsave(filename = "~/Documents/Github/straightlinewasalie/Figures/power-law-exponents.pdf", 
-       width = 10, height = 11, units = "in")
+       width = 8, height = 9, units = "in")
