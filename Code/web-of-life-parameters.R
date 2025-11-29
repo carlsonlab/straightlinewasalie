@@ -333,25 +333,28 @@ scatter_prop_n <- ggplot(network_subset, aes(x = prop_s, y = nestedness)) +
 
 statter_prop <- scatter_prop_c + scatter_prop_m + scatter_prop_n
 
-scatter_m <- ggplot(network_subset, aes(x = modularity, y = modularity_generalists, group = type, color = type)) +
-  geom_segment(aes(x = 0, xend = 0.7, y = 0, yend = 0.7), color = 'gray20', lwd = 1, lineend = "round", linetype = 'dashed') +
+scatter_m <- ggplot(network_subset, aes(x = modularity, y = modularity_generalists, color = type)) +
+  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_abline(slope=1, intercept=0, color = 'gray40', lwd = 1, lineend = "round", linetype = 'dashed') +
   theme_bw() +
   labs(x="Modularity (full network)", y="Modularity (generalists)") +
   scale_fill_manual(values = beth0, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5)))
 
-scatter_c <- ggplot(network_subset, aes(x = connectance, y = connectance_generalists, group = type, color = type)) +
-  geom_segment(aes(x = 0, xend = 0.7, y = 0, yend = 0.7), color = 'gray20', lwd = 1, lineend = "round", linetype = 'dashed') +
+scatter_c <- ggplot(network_subset, aes(x = connectance, y = connectance_generalists, color = type)) +
+  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_abline(slope=1, intercept=0, color = 'gray40', lwd = 1, lineend = "round", linetype = 'dashed') +
   theme_bw() +
   labs(x="Connectance (full network)", y="Connectance (generalists)") +
   scale_fill_manual(values = beth0, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5)))
 
-scatter_n <- ggplot(network_subset, aes(x = nestedness, y = nestedness_generalists, group = type, color = type)) +
-  geom_segment(aes(x = 0, xend = 0.7, y = 0, yend = 0.7), color = 'gray20', lwd = 1, lineend = "round", linetype = 'dashed') +
+scatter_n <- ggplot(network_subset, aes(x = nestedness, y = nestedness_generalists, color = type)) +
+  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_abline(slope=1, intercept=0, color = 'gray40', lwd = 1, lineend = "round", linetype = 'dashed') +
   theme_bw() +
   labs(x= "Nestedness (full network)", y="Nestedness (generalists)") +
   scale_fill_manual(values = beth0, name = NULL) +
@@ -374,7 +377,6 @@ boxplot_m <- ggplot(network_subset_ln, aes(x = type, y = value)) +
   scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
-  ylim(0,1) +
   theme_bw() +
   theme()
 
@@ -392,7 +394,6 @@ boxplot_c <- ggplot(network_subset_c_ln, aes(x = type, y = value)) +
   scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
-  ylim(0,1) +
   theme_bw() +
   theme()
 
@@ -409,7 +410,6 @@ boxplot_n <- ggplot(network_subset_n_ln, aes(x = type, y = value)) +
   scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
-  ylim(0,1) +
   theme_bw() +
   theme()
 

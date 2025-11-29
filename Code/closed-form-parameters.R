@@ -188,7 +188,7 @@ ggplot(
   annotate("text",
            x=103,
            y=18,
-           label=expression(S[s(h)]==S[g(h)]),
+           label=expression(S[s](h)==S[g](h)),
            hjust=0) +
   scale_color_manual(
     values=straightLine[c(4, 6, 7)],
