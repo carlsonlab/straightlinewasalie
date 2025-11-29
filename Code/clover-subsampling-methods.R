@@ -16,14 +16,14 @@ setwd("~/Documents/Github/straightlinewasalie/Data")
 # get_versioned_data(version = "17636397", dir_path = "./Temp")
 
 # Set up virus data
-virion <- vroom("./Temp/17636397/virion.csv.gz")
+virion <- vroom("./Data/Temp/17636397/virion.csv.gz")
 virion %>%
   mutate(Host = str_to_lower(Host), Virus = str_to_lower(Virus)) %>%
   filter(DetectionMethod %in% c("PCR/Sequencing","Isolation/Observation")) %>%
   filter(HostClass=='mammalia') %>%
   filter(!(Host=='homo sapiens')) %>%
   filter(!is.na(Host)) %>% filter(!is.na(Virus)) %>%
-  select(Host, Virus) %>% 
+  select(Host, Virus) %>%
   distinct() -> clo
 
 Hosts <- length(unique(clo$Host))
@@ -52,16 +52,16 @@ for (i in 1:10000) {
 }
 
 thomas <- met.brewer("Thomas", n=8)
-df1 %>% 
-  ggplot(aes(x = hosts, y = viruses)) + 
-  theme_bw() + 
-  geom_point(alpha = 0.02, col = thomas[8]) + 
-  geom_abline(intercept = 0, slope = slope, col = 'lightgrey') +
+df1 %>%
+  ggplot(aes(x = hosts, y = viruses)) +
+  theme_bw() +
+  geom_point(alpha = 0.02, col = thomas[8]) +
+#  geom_abline(intercept = 0, slope = slope, col = 'lightgrey') +
   ggtitle('Complete sampling') + xlab("Hosts") + ylab("Viruses") -> g1
-df2 %>% 
-  ggplot(aes(x = hosts, y = viruses)) + 
-  geom_abline(intercept = 0, slope = slope, col = 'lightgrey') + 
-  theme_bw() + geom_point(alpha = 0.02, col = thomas[2]) + 
+df2 %>%
+  ggplot(aes(x = hosts, y = viruses)) +
+#  geom_abline(intercept = 0, slope = slope, col = 'lightgrey') +
+  theme_bw() + geom_point(alpha = 0.02, col = thomas[2]) +
   ggtitle('Partial sampling') + xlab("Hosts") + ylab("Viruses") -> g2
 
 g2+g1

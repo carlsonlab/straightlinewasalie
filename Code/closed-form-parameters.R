@@ -2,7 +2,7 @@
 library(tidyverse)
 library(patchwork)
 library(MetBrewer)
-library(MoMAColors)
+#library(MoMAColors)
 library(vroom)
 library(cowplot)
 
@@ -188,7 +188,7 @@ ggplot(
   annotate("text",
            x=103,
            y=18,
-           label=expression(S[s]==S[g]),
+           label=expression(S[s(h)]==S[g(h)]),
            hjust=0) +
   scale_color_manual(
     values=straightLine[c(4, 6, 7)],
