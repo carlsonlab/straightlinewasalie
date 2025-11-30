@@ -2,6 +2,7 @@
 library(tidyverse)
 library(patchwork)
 library(MetBrewer)
+library(cowplot)
 
 
 met <- c("#F4C40F", "#FE9B00", "#D8443C", "#DE597C", "#E87B89", "#9F5691", "#633372", "#1F6E9C", "#2B9B81", "#92C051")
@@ -124,16 +125,76 @@ df4 <- rbind(
   data.frame(df3, set="Vertebrate helminth parasites")
   )
 
-{cairo_pdf("Figures/false-specialists.pdf", width=6.5, height=3.5)
 
-ggplot(df4, aes(x = hosts, y = false_specialists, color = type, group = type)) +
+falseSpecData <- ggplot(df4, aes(x = hosts, y = false_specialists, color = type, group = type)) +
   geom_point(alpha = 0.05) +
   facet_wrap("set", scale="free_x") +
   scale_color_manual(values = straightLine[c(4,9)], labels=c("Idealized (complete) sampling", "Realistic (incomplete)")) +
   labs(x="Hosts sampled", y="Proportion of false specialists") +
   guides(colour = guide_legend(override.aes = c(alpha = 1))) +
   theme_bw(base_size = 12) +
-  theme(legend.position="inside", legend.position.inside = c(0.8, 0.9), legend.title = element_blank(), legend.key.size = unit(0.4, "cm"))
+  theme(legend.position="inside", legend.position.inside = c(0.8, 0.9), legend.title = element_blank(), legend.key.size = unit(0.4, "cm"), plot.margin = margin(0.2, 0.2, 0.4, 0.4, "cm"))
+
+# AND ...
+
+# P(\hat{k}=1|H,h,k) = {h\binom{H-h}{k-1}}/{\binom{H}{k}}
+# P(\hat{k}=0|H,h,k) = {\binom{H-h}{k}}/{\binom{H}{k}}
+# check these out against in-text calcs
+H <- 6e3
+h <- 600
+k <- 10
+h*choose(H-h, k-1)/choose(H, k)
+choose(H-h, k)/choose(H, k)
+
+h*choose(H-h, k-1)/choose(H, k) / (1 - choose(H-h, k)/choose(H, k))
+
+falseSpec <- expand.grid(h=seq(1,5001,by=100),k=2:51)
+
+H <- 1e4
+
+falseSpec$PrFalseSpec <- mapply(
+  function(h,k) h*choose(H-h, k-1)/choose(H, k),
+  falseSpec$h,
+  falseSpec$k
+)
+falseSpec$PrNotSeen <- mapply(
+  function(h,k) choose(H-h, k)/choose(H, k),
+  falseSpec$h,
+  falseSpec$k
+)
+falseSpec$PrSeen <- 1-falseSpec$PrNotSeen
+falseSpec$PrSeenButFalseSpec <- falseSpec$PrFalseSpec / falseSpec$PrSeen
+
+glimpse(falseSpec)
+hist(falseSpec$PrFalseSpec)
+hist(falseSpec$PrSeenButFalseSpec)
+hist(falseSpec$PrNotSeen)
+
+falseSpecSurf <- ggplot(falseSpec, aes(x=h/H, y=k, fill=PrSeenButFalseSpec)) +
+  geom_tile() +
+  scale_fill_gradient(low=straightLine[6], high=straightLine[10], name="Pr(seen, as false specialist)") +
+  labs(x = "Fraction of hosts sampled", y="True symbiont host breadth") +
+  theme_bw() +
+  theme(legend.position = "top", legend.key.height = unit(0.25,"cm"), legend.key.width=unit(1,"cm"), legend.title.position = "top", plot.margin = margin(0.2, 0.2, 0.4, 0.2, "cm"))
+
+
+
+{cairo_pdf("Figures/false-specialists.pdf", width=6.5, height=3.5)
+
+falseSpecData
 
 }
 dev.off()
+
+
+{cairo_pdf("Figures/false-specialists-extra.pdf", width=10, height=3.5)
+
+ggdraw() +
+  draw_plot(falseSpecSurf, 0, 0, 0.3, 1) +
+  draw_plot(falseSpecData, 0.3, 0, 0.7, 1) +
+  draw_plot_label(label=c("A", "B"), x=c(0,0.3), y=1)
+
+}
+dev.off()
+
+

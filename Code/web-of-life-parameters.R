@@ -306,8 +306,8 @@ beths <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","#2F7858
 beth0 <- beths[c(11,3,6)]
 
 scatter_prop_m <- ggplot(network_subset, aes(x = prop_s, y = modularity)) +
-  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
   theme_bw() +
   labs(x="Proportion of specialists", y="Modularity (full network)") +
   scale_fill_manual(values = beth0, name = NULL) +
@@ -315,16 +315,16 @@ scatter_prop_m <- ggplot(network_subset, aes(x = prop_s, y = modularity)) +
 # scatter_prop_m
 
 scatter_prop_c <- ggplot(network_subset, aes(x = prop_s, y = connectance)) +
-  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
   theme_bw() +
   labs(x="Proportion of specialists", y="Connectance (full network)") +
   scale_fill_manual(values = beth0, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5)))
 
 scatter_prop_n <- ggplot(network_subset, aes(x = prop_s, y = nestedness)) +
-  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
   theme_bw() +
   labs(x="Proportion of specialists", y="Nestedness (full network)") +
   scale_fill_manual(values = beth0, name = NULL) +
@@ -334,17 +334,17 @@ scatter_prop_n <- ggplot(network_subset, aes(x = prop_s, y = nestedness)) +
 statter_prop <- scatter_prop_c + scatter_prop_m + scatter_prop_n
 
 scatter_m <- ggplot(network_subset, aes(x = modularity, y = modularity_generalists, color = type)) +
-  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
-  geom_abline(slope=1, intercept=0, color = 'gray40', lwd = 1, lineend = "round", linetype = 'dashed') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  geom_abline(slope=1, intercept=0, color = 'gray40', linewidth = 1, lineend = "round", linetype = 'dashed') +
   theme_bw() +
   labs(x="Modularity (full network)", y="Modularity (generalists)") +
   scale_fill_manual(values = beth0, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5)))
 
 scatter_c <- ggplot(network_subset, aes(x = connectance, y = connectance_generalists, color = type)) +
-  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
   geom_abline(slope=1, intercept=0, color = 'gray40', lwd = 1, lineend = "round", linetype = 'dashed') +
   theme_bw() +
   labs(x="Connectance (full network)", y="Connectance (generalists)") +
@@ -352,8 +352,8 @@ scatter_c <- ggplot(network_subset, aes(x = connectance, y = connectance_general
   guides(fill = guide_legend(override.aes = list(size=5)))
 
 scatter_n <- ggplot(network_subset, aes(x = nestedness, y = nestedness_generalists, color = type)) +
-  geom_smooth(method = 'lm', color = 'white', fill = 'black') +
   geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
   geom_abline(slope=1, intercept=0, color = 'gray40', lwd = 1, lineend = "round", linetype = 'dashed') +
   theme_bw() +
   labs(x= "Nestedness (full network)", y="Nestedness (generalists)") +
@@ -369,7 +369,7 @@ network_subset_m_ln <- network_subset %>%
   mutate(name = recode(name, !!!c("modularity" = "Full network", "modularity_generalists" = "Generalists")))
 
 
-boxplot_m <- ggplot(network_subset_ln, aes(x = type, y = value)) +
+boxplot_m <- ggplot(network_subset_m_ln, aes(x = type, y = value)) +
   geom_point(aes(group = name, fill = type), position = position_jitterdodge(jitter.width = 0.5, dodge.width = 0.75), size = 1.8, shape = 21, alpha = 0.25, color = 'black') +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
@@ -416,16 +416,16 @@ boxplot_n <- ggplot(network_subset_n_ln, aes(x = type, y = value)) +
 
 boxplots <- boxplot_c + boxplot_m + boxplot_n
 
+constraints <- (((scatter_prop_c + scatter_prop_m + scatter_prop_n)+theme(plot.margin = unit(c(0,0,0.75,0.25), "cm")))/((scatter_c + scatter_m + scatter_n)+theme(plot.margin = unit(c(0,0,0.75,0.25), "cm")))/(boxplot_c + boxplot_m + boxplot_n)) + plot_layout(guides = 'collect') & theme(legend.position = 'top', legend.text = element_text(size = 11), legend.key.height = unit(1, 'cm'))
+
+
 {cairo_pdf("Figures/constraints.pdf", width=10, height=10)
 
-  (((scatter_prop_c + scatter_prop_m + scatter_prop_n)+theme(plot.margin = unit(c(0,0,0.75,0.25), "cm")))/((scatter_c + scatter_m + scatter_n)+theme(plot.margin = unit(c(0,0,0.75,0.25), "cm")))/(boxplot_c + boxplot_m + boxplot_n)) +
-  plot_layout(guides = 'collect') & theme(legend.position = 'top', legend.text = element_text(size = 11), legend.key.height = unit(1, 'cm'))
+ggdraw() + draw_plot(constraints, 0, 0, 1, 1) + draw_plot_label(label=c("A", "B", "C"), x=0.01, y=c(0.94, 0.63, 0.315), size=18)
 
 }
 dev.off()
 
-ggsave(filename = "C:/Users/cjc277/OneDrive - Yale University/Documents/Github/straightlinewasalie/Figures/constraints.pdf",
-       width = 10, height = 10, units = "in")
 
 
 
