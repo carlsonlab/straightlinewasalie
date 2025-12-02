@@ -148,7 +148,7 @@ choose(H-h, k)/choose(H, k)
 
 h*choose(H-h, k-1)/choose(H, k) / (1 - choose(H-h, k)/choose(H, k))
 
-falseSpec <- expand.grid(h=seq(1,5001,by=100),k=2:51)
+falseSpec <- expand.grid(h=seq(1,5001,by=100),k=2:26)
 
 H <- 1e4
 
@@ -172,6 +172,7 @@ hist(falseSpec$PrNotSeen)
 
 falseSpecSurf <- ggplot(falseSpec, aes(x=h/H, y=k, fill=PrSeenButFalseSpec)) +
   geom_tile() +
+  geom_contour(aes(z=PrSeenButFalseSpec), color="white", bins=4) +
   scale_fill_gradient(low=straightLine[6], high=straightLine[10], name="Pr(seen, as false specialist)") +
   labs(x = "Fraction of hosts sampled", y="True symbiont host breadth") +
   theme_bw() +
@@ -196,5 +197,4 @@ ggdraw() +
 
 }
 dev.off()
-
 
