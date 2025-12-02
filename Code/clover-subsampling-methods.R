@@ -16,7 +16,7 @@ setwd("~/Documents/Github/straightlinewasalie/Data")
 # get_versioned_data(version = "17636397", dir_path = "./Temp")
 
 # Set up virus data
-virion <- vroom("./Data/Temp/17636397/virion.csv.gz")
+virion <- vroom("./Temp/17636397/virion.csv.gz")
 virion %>%
   mutate(Host = str_to_lower(Host), Virus = str_to_lower(Virus)) %>%
   filter(DetectionMethod %in% c("PCR/Sequencing","Isolation/Observation")) %>%
