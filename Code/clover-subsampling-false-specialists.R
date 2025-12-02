@@ -1,8 +1,9 @@
 
-library(tidyverse)
-library(patchwork)
-library(MetBrewer)
-library(cowplot)
+library("tidyverse")
+library("patchwork")
+library("MetBrewer")
+library("cowplot")
+library("metR")
 
 
 met <- c("#F4C40F", "#FE9B00", "#D8443C", "#DE597C", "#E87B89", "#9F5691", "#633372", "#1F6E9C", "#2B9B81", "#92C051")
@@ -170,15 +171,26 @@ hist(falseSpec$PrFalseSpec)
 hist(falseSpec$PrSeenButFalseSpec)
 hist(falseSpec$PrNotSeen)
 
-falseSpecSurf <- ggplot(falseSpec, aes(x=h/H, y=k, fill=PrSeenButFalseSpec)) +
-  geom_tile() +
-  geom_contour(aes(z=PrSeenButFalseSpec), color="white", bins=4) +
+falseSpecSurf <- ggplot(falseSpec) +
+  geom_tile(aes(x=h/H, y=k, fill=PrSeenButFalseSpec)) +
+  geom_contour(aes(x=h/H, y=k, z=PrSeenButFalseSpec), color="white", breaks=c(0.1,0.5,0.9)) +
+  annotate("label", label="0.1", x=0.47, y=8, border.color=NA, text.color="white", fill=NA, size=3) +
+  annotate("label", label="0.5", x=0.47, y=4, border.color=NA, text.color="white", fill=NA, size=3) +
+  annotate("label", label="0.9", x=0.22, y=2.5, border.color=NA, text.color="white", fill=NA, size=3) +
   scale_fill_gradient(low=straightLine[6], high=straightLine[10], name="Pr(seen, as false specialist)") +
   labs(x = "Fraction of hosts sampled", y="True symbiont host breadth") +
   theme_bw() +
   theme(legend.position = "top", legend.key.height = unit(0.25,"cm"), legend.key.width=unit(1,"cm"), legend.title.position = "top", plot.margin = margin(0.2, 0.2, 0.4, 0.2, "cm"))
 
+falseSpecSurf # test viewing
 
+
+{cairo_pdf("Figures/false-specialists_isocline.pdf", width=3, height=3.5)
+
+falseSpecSurf
+
+}
+dev.off()
 
 {cairo_pdf("Figures/false-specialists.pdf", width=6.5, height=3.5)
 
@@ -186,6 +198,7 @@ falseSpecData
 
 }
 dev.off()
+
 
 
 {cairo_pdf("Figures/false-specialists-extra.pdf", width=10, height=3.5)
