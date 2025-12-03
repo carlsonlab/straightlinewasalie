@@ -30,7 +30,7 @@ A: Yeah, it's pretty good. I mean, there's a whole song about mosquitoes.
 
 **Q: Do you like any of their other stuff?**
 
-A: I got into The Beths thanks to the title track of _Future Me Hates Me_, which is a louder album like _Straight Line Was a Lie_. I really like their version of "Have Yourself a Merry Little Christmas," which is a song that I've always maintained should be a little sad, like the Coldplay version. 
+A: I got into The Beths thanks to the title track of _Future Me Hates Me_, which is a louder album like _Straight Line Was a Lie_, and also very good. I absolutely love their cover of "Brand New Colony" that they did with Pickle Darling for the 20_th_ anniversary of _The District Sleeps Tonight_. And I really like their version of "Have Yourself a Merry Little Christmas," which is a song that I've always maintained should be a little sad, like the Coldplay version. 
 
 **Q: Sorry to interrupt - the "Yellow" B-side?**
 
@@ -38,7 +38,7 @@ A: Well, it's not really a B-side to "Yellow," they just bundled them on the _Mi
 
 **Q: Oh, right. Sorry to interrupt.**
 
-There's a few really great songs on _Expert in a Dying Field_. The title track uses the analogy of being an expert in a dying field for what it feels like when a relationship ends but it's still taking up all of your brainspace, which I think is really beautiful. "I Want To Listen" is also a really great song, because you can immediately tell that Elizabeth Stokes is a kiwi, in a way that is somehow not true on any other song they've written.
+There's also some really fantastic songs on _Expert in a Dying Field_. The title track uses the analogy of being an expert in a dying field for what it feels like when a relationship ends but it's still taking up all of your brainspace, which I think is really beautiful. "I Want To Listen" is also a really great song, because you can immediately tell that Elizabeth Stokes is a kiwi, in a way that is somehow not true on any other song they've written.
 
 **Q: Who's Elizabeth Stokes?**
 
