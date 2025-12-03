@@ -8,9 +8,15 @@ The name comes from The Beths' 2025 album _Straight Line Was a Lie_, which is a 
 
 **So it has nothing to do with the research?**
 
-Well, it's also a little bit of a double _entendre_: our work on this project started from critiquing a previous study, which assumed a linear relationship between hosts and viruses. It's a pretty terrible assumption, and at the time, we felt like it was intentionally misleading. So the straight line was a lie. But then it sort of comes full circle, because our work explains the sublinear scaling... with a linear relationship. 
+Well, it's also a little bit of a double _entendre_. Our work on this project started from critiquing a previous study, which assumed a linear relationship between hosts and viruses. It's a pretty terrible assumption, and at the time, we felt like it was intentionally misleading. So the straight line was a lie. But then it sort of comes full circle, because our work explains the sublinear scaling... with a linear relationship. 
 
-**That's cool. Are there other little inside jokes like that in the paper?** 
+But then there's another layer, which is that we've been working on this project for a decade, and every time we think we have it figured out and we're making linear progress, it turns out we _really_ don't. 
+
+**That's cool. It's kind of a triple _entendre_ then.** 
+
+Yeah, I guess so!
+
+**Are there other little inside jokes like that in the paper?** 
 
 Actually, yes - the album art was begging to be turned into a color palette, so we used those colors in Figure 2.
 
@@ -41,3 +47,7 @@ They were also [in a boat](https://www.youtube.com/watch?v=e_MefkiA0z8) at one p
 **Got it.**
 
 Yep.
+
+**Do you feel like a bit of a pompous weenie for italicizing _entendre_?**
+
+This interview is over.
