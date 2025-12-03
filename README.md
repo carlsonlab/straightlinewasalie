@@ -26,7 +26,15 @@ A: Actually, yes - the album art was begging to be turned into a color palette, 
 
 **Q: You must really like this album.**
 
-A: Yeah, it's pretty good. I mean, there's a whole song about mosquitoes.
+A: Yeah, it's pretty good. I mean, there's a song called "Mosquitoes," which is just great. There's also a really pretty verse on "Metal" that's basically about symbiosis:
+
+> _And I know I'm a collaboration_
+> 
+> _Bacteria, carbon, and light_
+> 
+> _A florid orchestration_
+> 
+> _A recipe of fortune and time_ 
 
 **Q: Do you like any of their other stuff?**
 
