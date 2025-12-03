@@ -22,7 +22,7 @@ A: Yeah, I guess so!
 
 **Q: Are there other little inside jokes like that in the paper?** 
 
-A: Actually, yes - the album art was begging to be turned into a color palette, so we used those colors in Figure 2.
+A: Actually, yes - the album art was begging to be turned into a color palette, so we used those colors in most of the figures. 
 
 **Q: You must really like this album.**
 
