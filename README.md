@@ -30,7 +30,7 @@ A: Yeah, it's pretty good. I mean, there's a whole song about mosquitoes.
 
 **Q: Do you like any of their other stuff?**
 
-A: I got into The Beths thanks to the title track of _Future Me Hates Me_, which is a louder album like _Straight Line Was a Lie_, and also very good. I absolutely love their cover of "Brand New Colony" that they did with Pickle Darling for the 20_th_ anniversary of _The District Sleeps Tonight_. And I really like their version of "Have Yourself a Merry Little Christmas," which is a song that I've always maintained should be a little sad, like the Coldplay version. 
+A: I got into The Beths thanks to the title track of _Future Me Hates Me_, which is a louder album like _Straight Line Was a Lie_, and also very good. I absolutely love their cover of "Brand New Colony" that they did with Pickle Darling for the 20th anniversary of _The District Sleeps Tonight_. And I really like their version of "Have Yourself a Merry Little Christmas," which is a song that I've always maintained should be a little sad, like the Coldplay version. 
 
 **Q: Sorry to interrupt - the "Yellow" B-side?**
 
