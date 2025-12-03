@@ -1,53 +1,61 @@
 # Frequently Asked Questions
 
+## Repository organization
+
+
+
 ## Repository name
 
-**Why is this repository called carlsonlab/straightlinewasalie?**
+**Q: Why is this repository called carlsonlab/straightlinewasalie?**
 
-The name comes from The Beths' 2025 album _Straight Line Was a Lie_, which is a very good album that I listened to a lot this year. 
+A: The name comes from The Beths' 2025 album _Straight Line Was a Lie_, which is a very good album that I listened to a lot this year. 
 
-**So it has nothing to do with the research?**
+**Q: So it has nothing to do with the research?**
 
-Well, it's also a little bit of a double _entendre_. Our work on this project started from critiquing a previous study, which assumed a linear relationship between hosts and viruses. It's a pretty terrible assumption, and at the time, we felt like it was intentionally misleading. So the straight line was a lie. But then it sort of comes full circle, because our work explains the sublinear scaling... with a linear relationship. 
+A: Well, it's also a little bit of a double _entendre_. Our work on this project started from critiquing a previous study, which assumed a linear relationship between hosts and viruses. It's a pretty terrible assumption, and at the time, we felt like it was intentionally misleading. So the straight line was a lie. But then it sort of comes full circle, because our work explains the sublinear scaling... with a linear relationship. 
 
 But then there's another layer, which is that we've been working on this project for a decade, and every time we think we have it figured out and we're making linear progress, it turns out we _really_ don't. 
 
-**That's cool. It's kind of a triple _entendre_ then.** 
+**Q: That's cool. It's kind of a triple _entendre_ then.** 
 
-Yeah, I guess so!
+A: Yeah, I guess so!
 
-**Are there other little inside jokes like that in the paper?** 
+**Q: Are there other little inside jokes like that in the paper?** 
 
-Actually, yes - the album art was begging to be turned into a color palette, so we used those colors in Figure 2.
+A: Actually, yes - the album art was begging to be turned into a color palette, so we used those colors in Figure 2.
 
-**You must really like this album.**
+**Q: You must really like this album.**
 
-Yeah, it's pretty good. I mean, there's a whole song about mosquitoes.
+A: Yeah, it's pretty good. I mean, there's a whole song about mosquitoes.
 
-**Do you like any of their other stuff?**
+**Q: Do you like any of their other stuff?**
 
-There's a few really great songs on _Expert in a Dying Field_. The title track uses the analogy of being an expert in a dying field for what it feels like when a relationship ends but it's still taking up all of your brainspace, which I like. "I Want To Listen" is also a really great song, because you can immediately tell that Elizabeth Stokes is a kiwi, in a way that is somehow not true on any other song they've written.
+A: There's a few really great songs on _Expert in a Dying Field_. The title track uses the analogy of being an expert in a dying field for what it feels like when a relationship ends but it's still taking up all of your brainspace, which I like. "I Want To Listen" is also a really great song, because you can immediately tell that Elizabeth Stokes is a kiwi, in a way that is somehow not true on any other song they've written.
 
-**Who's Elizabeth Stokes?**
+**Q: Who's Elizabeth Stokes?**
 
-The lead singer of The Beths.
+A: The lead singer of The Beths.
 
-**Ah, got it. She's from New Zealand?**
+**Q: Ah, got it. She's from New Zealand?**
 
-Yeah. 
+A: Yeah. 
 
-**Can you tell on any of their songs?**
+**Q: Can you tell on any of their songs?**
 
-Yeah, "I Want to Listen" from _Expert in a Dying Field_. 
+A: Yeah, "I Want to Listen" from _Expert in a Dying Field_. 
 
-**Oh, right.**
+**Q: Oh, right.**
 
-They were also [in a boat](https://www.youtube.com/watch?v=e_MefkiA0z8) at one point. It was pretty obvious they were from New Zealand then, too. 
+A: They were also [in a boat](https://www.youtube.com/watch?v=e_MefkiA0z8) at one point. It was pretty obvious they were from New Zealand then, too. 
 
-**Got it.**
+**Q: Because they were in a boat?**
 
-Yep.
+A: No, because they have New Zealand accents.
 
-**Do you feel like a bit of a pompous weenie for italicizing _entendre_?**
+**Q: Got it.**
 
-This interview is over.
+A: Yep.
+
+**Q: Do you feel like a bit of a pompous weenie for italicizing _entendre_?**
+
+A: This interview is over.
