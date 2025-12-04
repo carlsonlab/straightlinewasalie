@@ -1,5 +1,5 @@
 
-library(reshape) # do NOT yell at me
+library(reshape) # leave me alone it's old code
 library(codependent)
 library(tidyverse)
 library(patchwork)
@@ -115,6 +115,11 @@ closedform <- function(df) {
 alpha <- 0.1
 beths <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","#2F7858","#6D8842","#8BAA81","#E23639","#DF6F85")
 
+col_power <- "#8BAA81"
+col_closed <- "#2D4E7B"
+col_koh <- "#7079B2"
+
+
 samples <- curve.df(sch2010, iter = 100)
 power <- powerlaw(sch2010)
 koh <- kohcolwell(sch2010)
@@ -123,29 +128,29 @@ samples %>%
   ggplot(aes(x = n.host, y = n.par)) + 
   theme_bw() + 
   geom_point(alpha = alpha, pch = 16, size = 1.5, color = '#C4C3C1') + 
-  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = '#2F7858') + 
-  geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = '#7079B2') + 
-  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = '#54B2D8') +
+  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = col_power) + 
+  geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = col_koh) + 
+  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = col_closed) +
   xlab("Plant hosts") + ylab("Seed dispersers") -> left1 
 
 samples %>% left_join(power %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#2F7858') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_power) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals")+
   geom_smooth(col = 'white') -> top2 
 samples %>% left_join(koh %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#7079B2') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_koh) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals")+
   geom_smooth(col = 'white') -> top3
 samples %>% left_join(closed %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#54B2D8') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_closed) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> top4
@@ -158,29 +163,29 @@ samples %>%
   ggplot(aes(x = n.host, y = n.par)) + 
   theme_bw() + 
   geom_point(alpha = alpha, pch = 16, size = 1.5, color = '#C4C3C1') + 
-  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = '#2F7858') + 
-  geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = '#7079B2') + 
-  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = '#54B2D8') +
+  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = col_power) + 
+  geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = col_koh) + 
+  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = col_closed) +
   xlab("Plant hosts") + ylab("Mycorrhizal OTUs") -> left2 
 
 samples %>% left_join(power %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#2F7858') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_power) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals")+
   geom_smooth(col = 'white') -> middle2 
 samples %>% left_join(koh %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#7079B2') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_koh) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals")+
   geom_smooth(col = 'white') -> middle3
 samples %>% left_join(closed %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#54B2D8') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_closed) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> middle4
@@ -193,29 +198,29 @@ samples %>%
   ggplot(aes(x = n.host, y = n.par)) + 
   theme_bw() + 
   geom_point(alpha = alpha, pch = 16, size = 1.5, color = '#C4C3C1') + 
-  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = '#2F7858') + 
-  geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = '#7079B2') + 
-  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = '#54B2D8') +
+  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = col_power) + 
+  geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = col_koh) + 
+  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = col_closed) +
   xlab("Plant hosts") + ylab("Floral visitors") -> left3
 
 samples %>% left_join(power %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#2F7858') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_power) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals")+
   geom_smooth(col = 'white') -> middleagain2 
 samples %>% left_join(koh %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#7079B2') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_koh) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> middleagain3
 samples %>% left_join(closed %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#54B2D8') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_closed) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Plant hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> middleagain4
@@ -228,29 +233,29 @@ samples %>%
   ggplot(aes(x = n.host, y = n.par)) + 
   theme_bw() + 
   geom_point(alpha = alpha, pch = 16, size = 1.5, color = '#C4C3C1') + 
-  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = '#2F7858') + 
+  geom_line(data = power, aes(x = n.host, y = n.par), lwd = 1, col = col_power) + 
   geom_line(data = koh, aes(x = n.host, y = n.par), lwd = 1, col = '#7079B2') + 
-  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = '#54B2D8') +
+  geom_line(data = closed, aes(x = n.host, y = n.par), lwd = 1, col = col_closed) +
   xlab("Mammal hosts") + ylab("Nematode parasites") -> left4
 
 samples %>% left_join(power %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#2F7858') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_power) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Mammal hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> bottom2 
 samples %>% left_join(koh %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#7079B2') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_koh) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Mammal hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> bottom3
 samples %>% left_join(closed %>% dplyr::rename(n.par.est = 'n.par')) %>%
   mutate(residuals = n.par - n.par.est) %>%
   ggplot(aes(x = n.host, y = residuals)) + 
-  geom_point(alpha = alpha, pch = 16, size = 1.5, col = '#54B2D8') + 
+  geom_point(alpha = alpha, pch = 16, size = 1.5, col = col_closed) + 
   geom_hline(yintercept = 0, linetype = 'dashed', lwd = 1, col = 'black') + 
   theme_bw() + xlab("Mammal hosts") + ylab("Residuals") +
   geom_smooth(col = 'white') -> bottom4
