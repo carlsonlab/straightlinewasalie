@@ -16,7 +16,7 @@ library(MoMAColors)
 library(patchwork)
 library(vroom)
 
-setwd("~/Github/straightlinewasalie/Data")
+setwd("~/Documents/Github/straightlinewasalie/Data")
 
 # Access virus data
 # library(virionData)
@@ -113,28 +113,29 @@ print(results[i,])
 
 # write_csv(results, "~/Documents/Github/twothings/diversityestimates.csv")
 
+beths <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","#2F7858","#6D8842","#8BAA81","#E23639","#DF6F85")
+
 results %>%
   pivot_longer(cols = c(est.1, est.2, est.3),
                names_to = 'method',
                values_to = 'estimate') %>%
-  mutate(method = recode(method, !!!c('est.1' = 'Linear (all symbionts)',
-                                      'est.2' = 'iNEXT (all symbionts)',
+  mutate(method = recode(method, !!!c('est.1' = 'Linear (all viruses)',
+                                      'est.2' = 'iNEXT (all viruses)',
                                       'est.3' = 'Linear (specialists) + iNEXT (generalists)'))) %>%
   ggplot(aes(x = prop, y = estimate/P, group = method, color = method)) + 
-  geom_vline(xintercept = 0.16, linetype = 2) + 
-  geom_hline(yintercept = 1) +   
-  geom_point(alpha = 0.35, stroke = NA, size = 2.5) + 
-  scale_y_log10(limits = c(0.1, 10)) +   
-  annotate("rect", xmin = 0.05, xmax = 0.15, 
-           ymin = 0.3, ymax = 16, 
-           alpha = .25) + 
-  xlab('\n Proportion of hosts sampled') + ylab('\n Estimated parasite diversity / true parasite diversity \n') + 
+  #geom_vline(xintercept = 0.16, linetype = 2) + 
+  geom_hline(yintercept = 1, linetype = 'dashed') +   
+  geom_point(alpha = 1, pch = 16, size = 2) + 
+  ylim(0, 3) + 
+  xlab('\n Proportion of hosts sampled') + ylab('\n Estimated / true virus diversity \n') + 
   theme_bw() + 
   theme(legend.position = 'bottom',
         legend.key.height = unit(-2, "cm")) + 
   guides(color = guide_legend(nrow = 4)) + labs(color = "Method") +
-  scale_colour_manual(values = moma.colors("Panton", 7)[c(3,5,4)])
- 
+  scale_colour_manual(values = beths[c(10,6,3)])
+
+ggsave("~/Documents/Github/straightlinewasalie/Figures/iNEXT.pdf", height = 7, width = 6) 
+ggsave("~/Documents/Github/straightlinewasalie/Figures/iNEXT.jpg", height = 7, width = 6) 
 
 
  
