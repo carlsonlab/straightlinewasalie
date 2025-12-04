@@ -8,7 +8,7 @@
 
 **Q: Why is this repository called carlsonlab/straightlinewasalie?**
 
-A: The name comes from The Beths' 2025 album _Straight Line Was a Lie_, which is a very good album that I listened to a lot this year. 
+A: The name comes from The Beths' 2025 album [_Straight Line Was a Lie_](https://thebeths.ffm.to/straightlinewasalie), which is a very good album that I listened to a lot this year. 
 
 **Q: So it has nothing to do with the research?**
 
@@ -26,7 +26,7 @@ A: Actually, yes - the album art was begging to be turned into a color palette, 
 
 **Q: You must really like this album.**
 
-A: Yeah, it's pretty good. I mean, there's a song called "Mosquitoes," which is just great. There's also a really pretty verse on "Metal" that's basically about symbiosis:
+A: Yeah, it's pretty good. I mean, there's a song called ["Mosquitoes,"](https://soundcloud.com/thebethsnz/mosquitoes?in=thebethsnz/sets/straight-line-was-a-lie&si=53ef2e8b987f4415b5ebb41890043d09) which is just great. There's also a really pretty verse on ["Metal"](https://soundcloud.com/thebethsnz/metal?in=thebethsnz/sets/straight-line-was-a-lie&si=e8608e1ebe9947839608577e97fbe16b) that's basically about symbiosis:
 
 > _And I know I'm a collaboration_
 > 
