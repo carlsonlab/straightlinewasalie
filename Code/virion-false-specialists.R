@@ -141,6 +141,7 @@ falseSpecSurf <- ggplot(falseSpec) +
   annotate("label", label="0.5", x=0.47, y=4, border.color=NA, text.color="white", fill=NA, size=3) +
   annotate("label", label="0.9", x=0.22, y=2.5, border.color=NA, text.color="white", fill=NA, size=3) +
   scale_fill_gradient(low=beths[6], high=beths[10], name="Pr(seen, as false specialist)") +
+  scale_y_continuous(breaks=c(2,10,20)) +
   labs(x = "Fraction of hosts sampled", y="True symbiont host breadth") +
   theme_bw() +
   theme(legend.position = "none", legend.key.height = unit(0.25,"cm"), legend.key.width=unit(1,"cm"), legend.title.position = "top", plot.margin = margin(0.25, 0.2, 0.4, 0.4, "cm"))

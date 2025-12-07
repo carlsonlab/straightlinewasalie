@@ -2,7 +2,7 @@
 library(tidyverse)
 library(patchwork)
 library(MetBrewer)
-library(MoMAColors)
+#library(MoMAColors)
 library(vroom)
 
 # setwd("~/Documents/Github/straightlinewasalie/Data")
@@ -133,10 +133,10 @@ virus_groups$estVirus <- virus_groups$VirusesPerHost
 virus_groups_nopico$estVirus <- virus_groups_nopico$ScalingICTV
 
 virus_groups_plot <- rbind(
-  data.frame(virus_groups, picoOut="Carroll et al. (2018)\nRaw metagenomic samples\nuncorrected for host range"),
-  data.frame(virus_groups_nopico, picoOut="This study (2025)\nGlobal estimates broken down\nfor vertebrate-infective groups")
+  data.frame(virus_groups, picoOut="Raw metagenomic samples\nuncorrected for host range"),
+  data.frame(virus_groups_nopico, picoOut="Global estimates broken down\nfor vertebrate-infective groups")
   ) %>%
-  mutate(`Virus family` = factor(Family, levels = c("Adenoviridae","Astroviridae","Coronaviridae","Orthoherpesviridae","Paramyxoviridae","Parvoviridae","Picornaviridae","Polyomaviridae","Rhabdoviridae","Sedoreoviridae","Picobirnaviridae")))
+  mutate(`Virus family` = factor(Family, levels = c("Adenoviridae","Astroviridae","Coronaviridae","Orthoherpesviridae","Paramyxoviridae","Parvoviridae","Picornaviridae","Polyomaviridae","Rhabdoviridae","Sedoreoviridae","Picobirnaviridae")), picoOut = factor(picoOut, c("Raw metagenomic samples\nuncorrected for host range", "Global estimates broken down\nfor vertebrate-infective groups")))
 
 
 pies <- ggplot(virus_groups_plot, aes(x="", y=estVirus, fill=`Virus family`)) +
@@ -148,7 +148,7 @@ pies <- ggplot(virus_groups_plot, aes(x="", y=estVirus, fill=`Virus family`)) +
   theme(plot.title = element_text(hjust = 0.5),
       text = element_text(size = 10),
       plot.subtitle = element_text(hjust=0.5),
-      strip.text = element_text(size=10, margin=margin(0.01, 0.01, 0.05, 0.01, unit="cm")),
+      strip.text = element_text(size=10, margin=margin(0, 0.01, 0.05, 0.01, unit="cm")),
       panel.spacing = unit(-1, "cm"),
       legend.key.size = unit(0.5, "cm"))
 
@@ -205,18 +205,23 @@ df %>%
   #              position=position_dodge(.9)) +
   theme_bw(base_size = 9) +
   xlab(NULL) +
-  ggtitle("Estimated global diversity\nof mammalian viruses") +
-  ylab("Log species richness (thousands)") +
+  ggtitle("Estimated global diversity\nof mammal-infective viruses") +
+  ylab("Species richness (thousands)") +
   scale_fill_manual(values = met.brewer("Juarez",6)[c(3,2,6,1)]) +
-  theme(legend.position = 'n') -> g4
+  theme(legend.position = 'n', margins=margin(0.01, 0.1, 0.05, 0.1, unit="cm")) -> g4
 
 ##### assembly and write-out
 
 library("cowplot")
 
-{cairo_pdf("Figures/virus-diversity-wide.pdf", width=9.5, height=4)
+{cairo_pdf("Figures/virus-diversity-wide.pdf", width=9.5, height=3.5)
 
-ggdraw() + draw_plot(g4, 0, 0.05, 0.35, 0.9) + draw_plot(pies, 0.35, 0, 0.65, 1)
+ggdraw() +
+  draw_plot(g4, 0, 0.05, 0.35, 0.9) +
+  draw_plot(pies, 0.35, 0, 0.65, 1) +
+  draw_plot_label(label=c("A","B"), x=c(0,0.35), y=1) +
+  draw_plot_label(label="Carroll et al. (2018)", x=0.41, y=0.99, hjust=0, size=12) +
+  draw_plot_label(label="This study (2025)", x=0.65, y=0.99, hjust=0, size=12)
 
 }
 dev.off()
