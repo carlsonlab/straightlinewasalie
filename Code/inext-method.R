@@ -137,6 +137,36 @@ results %>%
 ggsave("~/Documents/Github/straightlinewasalie/Figures/iNEXT.pdf", height = 7, width = 6) 
 ggsave("~/Documents/Github/straightlinewasalie/Figures/iNEXT.jpg", height = 7, width = 6) 
 
+####### Estimate global viral diversity because hahahahahahahaha
 
- 
+pars <- unique(helm$Parasite)
+P <- length(pars)
+specs <- helm %>% count(Parasite) %>% filter(n==1) %>% pull(Parasite)
+S <- length(specs)
+gens <- helm %>% count(Parasite) %>% filter(n>1) %>% pull(Parasite)
+G <- length(gens)
 
+incidence <- helm %>% 
+  mutate(Count = 1) %>% 
+  pivot_wider(names_from = Host, values_from = Count) %>% 
+  replace(is.na(.), 0) %>%
+  select(-Parasite) %>% as.matrix()
+estimateD(incidence, q = 0, datatype = "incidence_raw", level = 6759, base = 'size')$qD
+
+###
+### 2c. Linear plus Chao
+###
+
+est.spec <- (S/H)*6251
+
+incidence <- helm %>% 
+  filter(Parasite %in% gens.i) %>%
+  mutate(Count = 1) %>% 
+  pivot_wider(names_from = Host, values_from = Count) %>% 
+  replace(is.na(.), 0) %>%
+  select(-Parasite) %>% as.matrix()
+est.gen <- estimateD(incidence, q = 0, datatype = "incidence_raw", level = 6759, base = 'size')$qD
+
+est.spec
+est.gen 
+est.spec+est.gen
