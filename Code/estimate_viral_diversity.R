@@ -217,7 +217,7 @@ library("cowplot")
 {cairo_pdf("Figures/virus-diversity-wide.pdf", width=9.5, height=3.5)
 
 ggdraw() +
-  draw_plot(g4, 0, 0.05, 0.35, 0.9) +
+  draw_plot(g4, 0, 0.05, 0.35, 0.92) +
   draw_plot(pies, 0.35, 0, 0.65, 1) +
   draw_plot_label(label=c("A","B"), x=c(0,0.35), y=1) +
   draw_plot_label(label="Carroll et al. (2018)", x=0.41, y=0.99, hjust=0, size=12) +

@@ -6,7 +6,7 @@ library(codependent)
 library(bipartite)
 library(cowplot)
 
-setwd("~/Documents/Github/straightlinewasalie/Data/Edgelists/web-of-life_2025-11-16_214145")
+# setwd("~/Documents/Github/straightlinewasalie/Data/Edgelists/web-of-life_2025-11-16_214145")
 
 # Organize network datasets
 
@@ -368,13 +368,24 @@ network_subset_m_ln <- network_subset %>%
   pivot_longer(cols = c(modularity, modularity_generalists)) %>%
   mutate(name = recode(name, !!!c("modularity" = "Full network", "modularity_generalists" = "Generalists")))
 
+# hypothesis testing
+anova(lm(value~type*name, data=network_subset_m_ln))
+# sig main effects of type and name, none for interaction
+TukeyHSD(aov(lm(value~type*name, data=network_subset_m_ln)))
+# ugh okay organizing this
+# Plant-Seed Disperser:Full network-Host-Parasite:Full network; p = 0.9999513
+# Plant-Seed Disperser:Generalists-Host-Parasite:Generalists; 0.9999141
+# Plant-Pollinator:Full network-Host-Parasite:Full network; 0.0000000
+# Plant-Pollinator:Generalists-Host-Parasite:Generalists; 0.0000020
+# Plant-Pollinator:Full network-Plant-Seed Disperser:Full network; 0.0000000
+# Plant-Pollinator:Generalists-Plant-Seed Disperser:Generalists; 0.0007283
 
 boxplot_m <- ggplot(network_subset_m_ln, aes(x = type, y = value)) +
   geom_point(aes(group = name, fill = type), position = position_jitterdodge(jitter.width = 0.5, dodge.width = 0.75), size = 1.8, shape = 21, alpha = 0.25, color = 'black') +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
   labs(x="Type of symbiosis", y="Modularity") +
-  scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
+  scale_x_discrete(labels=c("Parasitism", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
   theme_bw() +
@@ -391,7 +402,7 @@ boxplot_c <- ggplot(network_subset_c_ln, aes(x = type, y = value)) +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
   labs(x="Type of symbiosis", y="Connectance") +
-  scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
+  scale_x_discrete(labels=c("Parasitism", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
   theme_bw() +
@@ -407,7 +418,7 @@ boxplot_n <- ggplot(network_subset_n_ln, aes(x = type, y = value)) +
   geom_boxplot(aes(fill = type, alpha = name), outliers = FALSE, lwd = 0.4) +
   scale_alpha_manual(values = c(0.8, 0.4), guide = guide_legend(override.aes = list(fill = "black")), name = NULL) +
   labs(x="Type of symbiosis", y="Nestedness") +
-  scale_x_discrete(labels=c("Host-Parasite", "Seed dispersal", "Pollination")) +
+  scale_x_discrete(labels=c("Parasitism", "Seed dispersal", "Pollination")) +
   guides(fill = 'none', color = 'none') +
   scale_fill_manual(values = beth0, name = NULL) +
   theme_bw() +
