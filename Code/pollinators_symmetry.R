@@ -196,6 +196,14 @@ dev.off()
 wilcox.test(coex.plant~symmetry, data=filter(data.df, gen_only=="All visitors"), alt="g") # p = 4.2e-15
 wilcox.test(coex.plant~symmetry, data=filter(data.df, gen_only!="All visitors"), alt="g") # p = 0.003
 
+plant.coex.AvZ <- data.df |> select(web, symmetry, gen_only, coex.plant) |> 
+	pivot_wider(values_from=coex.plant, names_from=symmetry) |> 
+	mutate(AvZ = Actinomorphic - Zygomorphic)
+
+plant.coex.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ)) 
+
+wilcox.test(AvZ ~ gen_only, data=plant.coex.AvZ, alt="g")
+
 
 {cairo_pdf("Figures/PlantPollinator_pollcoex.pdf", width=3.5, height=4)
 ggplot() +
