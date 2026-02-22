@@ -179,6 +179,69 @@ data.df$gen_only[data.df$gen_only==0] <- "All visitors"
 glimpse(data.df)
 table(data.df$web)
 
+# calculate specialist affiliate n
+spec.cts <- data.df |> dplyr::select(web, symmetry, gen_only, n.aff) |> pivot_wider(names_from=gen_only, values_from=n.aff) |> mutate(`N specialists` = `All visitors` - `Generalists only`)
+
+wilcox.test(`N specialists`~symmetry, data=spec.cts, alt="g")
+
+
+# looking at different stats ......
+
+# visitor species
+wilcox.test(log10(n.aff)~symmetry, data=filter(data.df, gen_only=="All visitors"), alt="g") # A > Z, p = 0.003
+wilcox.test(log10(n.aff)~symmetry, data=filter(data.df, gen_only!="All visitors"), alt="g") # A > Z, p = 5.75e-06
+
+n.aff.AvZ <- data.df |> select(web, symmetry, gen_only, n.aff) |> 
+	pivot_wider(values_from=n.aff, names_from=symmetry) |> 
+	mutate(AvZ = log10(Actinomorphic) - log10(Zygomorphic))
+
+n.aff.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ), mean = mean(AvZ)) 
+
+wilcox.test(AvZ~gen_only, data=n.aff.AvZ, alt="l") # all < GO, p = 0.01
+
+# visitor sharing
+wilcox.test(log10(aff.sharing)~symmetry, data=filter(data.df, gen_only=="All visitors")) # n.s.
+wilcox.test(log10(aff.sharing)~symmetry, data=filter(data.df, gen_only!="All visitors")) # n.s.
+
+aff.sharing.AvZ <- data.df |> select(web, symmetry, gen_only, aff.sharing) |> 
+	pivot_wider(values_from=aff.sharing, names_from=symmetry) |> 
+	mutate(AvZ = Actinomorphic - Zygomorphic)
+
+aff.sharing.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ)) 
+
+wilcox.test(AvZ~gen_only, data=aff.sharing.AvZ) # n.s.
+
+
+# connectance
+wilcox.test(connectance~symmetry, data=filter(data.df, gen_only=="All visitors"), alt="l") # A < Z, p = 0.001
+wilcox.test(connectance~symmetry, data=filter(data.df, gen_only!="All visitors"), alt="l") # A < Z, p = 1.9e-05
+
+connectance.AvZ <- data.df |> select(web, symmetry, gen_only, connectance) |> 
+	pivot_wider(values_from=connectance, names_from=symmetry) |> 
+	mutate(AvZ = Actinomorphic - Zygomorphic)
+
+connectance.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ)) 
+
+wilcox.test(AvZ~gen_only, data=connectance.AvZ) # p = 0.0001
+
+
+# web asymmetry
+wilcox.test(web.asymmetry~symmetry, data=filter(data.df, gen_only=="All visitors"), alt="l") # n.s.
+wilcox.test(web.asymmetry~symmetry, data=filter(data.df, gen_only!="All visitors"), alt="l") # n.s.
+
+web.asymmetry.AvZ <- data.df |> select(web, symmetry, gen_only, web.asymmetry) |> 
+	pivot_wider(values_from=web.asymmetry, names_from=symmetry) |> 
+	mutate(AvZ = Actinomorphic - Zygomorphic)
+
+web.asymmetry.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ)) 
+
+wilcox.test(AvZ~gen_only, data=web.asymmetry.AvZ, alt="l") # all < GO, p = 0.003
+
+
+
+
+
+# figures ....
 beths <- c("#C4C3C1", "#7D523A", "#F3CF26", "#2D4E7B", "#7079B2", "#54B2D8", "#2F7858", "#6D8842", "#8BAA81", "#E23639", "#DF6F85")
 
 {cairo_pdf("Figures/PlantPollinator_plantcoex.pdf", width=3.5, height=4)
@@ -193,14 +256,7 @@ ggplot() +
 }	
 dev.off()
 
-wilcox.test(coex.plant~symmetry, data=filter(data.df, gen_only=="All visitors"), alt="g") # p = 4.2e-15
-wilcox.test(coex.plant~symmetry, data=filter(data.df, gen_only!="All visitors"), alt="g") # p = 0.003
 
-plant.coex.AvZ <- data.df |> select(web, symmetry, gen_only, coex.plant) |> 
-	pivot_wider(values_from=coex.plant, names_from=symmetry) |> 
-	mutate(AvZ = Actinomorphic - Zygomorphic)
-
-plant.coex.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ)) 
 
 wilcox.test(AvZ ~ gen_only, data=plant.coex.AvZ, alt="g")
 
@@ -220,6 +276,14 @@ dev.off()
 wilcox.test(coex.poll~symmetry, data=filter(data.df, gen_only=="All visitors"), alt="g") # p = 4.9e-15
 wilcox.test(coex.poll~symmetry, data=filter(data.df, gen_only!="All visitors"), alt="g") # p = 0.0002
 
-	
+poll.coex.AvZ <- data.df |> select(web, symmetry, gen_only, coex.poll) |> 
+	pivot_wider(values_from=coex.poll, names_from=symmetry) |> 
+	mutate(AvZ = Actinomorphic - Zygomorphic)
+
+poll.coex.AvZ |> group_by(gen_only) |> summarize(med = median(AvZ)) 
+
+wilcox.test(AvZ ~ gen_only, data=poll.coex.AvZ, alt="l") # n.s.
+
+
 
 
