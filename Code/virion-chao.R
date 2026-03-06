@@ -33,4 +33,4 @@ estimateD(incidence, q = 0, datatype = "incidence_raw", level = 6759, base = 'si
 
 clo %>%
   count(Host) %>% mutate(singleton = (n==1)) %>%
-  summarize(singleton)
+  count(singleton)
