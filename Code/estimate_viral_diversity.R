@@ -5,7 +5,7 @@ library(MetBrewer)
 #library(MoMAColors)
 library(vroom)
 
-# setwd("~/Documents/Github/straightlinewasalie/Data")
+# setwd("~/Documents/Github/straightlinewasalie")
 
 # Access virus data
 # library(virionData)
@@ -167,10 +167,13 @@ virus_groups_nopb %>%
 split_groups %>% filter(Baltimore == "DNA") -> dna_viruses
 split_groups %>% filter(Baltimore == "RNA") -> rna_viruses
 
-est1dna <- MammalSpecies*VirusFamilies*mean(dna_viruses$Scaling)
-est2dna <- MammalSpecies*VirusFamilies*mean(dna_viruses$ScalingICTV)
-est1rna <- MammalSpecies*VirusFamilies*mean(rna_viruses$Scaling)
-est2rna <- MammalSpecies*VirusFamilies*mean(rna_viruses$ScalingICTV)
+RNAVirusFamilies=17
+DNAVirusFamilies=8
+
+est1dna <- MammalSpecies*DNAVirusFamilies*mean(dna_viruses$Scaling)
+est2dna <- MammalSpecies*DNAVirusFamilies*mean(dna_viruses$ScalingICTV)
+est1rna <- MammalSpecies*RNAVirusFamilies*mean(rna_viruses$Scaling)
+est2rna <- MammalSpecies*RNAVirusFamilies*mean(rna_viruses$ScalingICTV)
 est1 <- est1dna+est1rna
 est2 <- est2dna+est2rna
 
@@ -221,7 +224,7 @@ ggdraw() +
   draw_plot(pies, 0.35, 0, 0.65, 1) +
   draw_plot_label(label=c("A","B"), x=c(0,0.35), y=1) +
   draw_plot_label(label="Carroll et al. (2018)", x=0.41, y=0.99, hjust=0, size=12) +
-  draw_plot_label(label="This study (2025)", x=0.65, y=0.99, hjust=0, size=12)
+  draw_plot_label(label="This study (2026)", x=0.65, y=0.99, hjust=0, size=12)
 
 }
 dev.off()

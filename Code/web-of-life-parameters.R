@@ -6,7 +6,7 @@ library(codependent)
 library(bipartite)
 library(cowplot)
 
-# setwd("~/Documents/Github/straightlinewasalie/Data/Edgelists/web-of-life_2025-11-16_214145")
+# setwd("~/Documents/Github/straightlinewasalie")
 
 # Organize network datasets
 
