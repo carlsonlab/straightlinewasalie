@@ -18,6 +18,7 @@ virion %>%
   filter(DetectionMethod %in% c("PCR/Sequencing","Isolation/Observation")) %>%
   filter(HostClass=='mammalia') %>%
   filter(!(Host=='homo sapiens')) %>%
+  filter(!is.na(Host), !is.na(Virus)) %>%
   rowwise() %>%
   mutate(Year = min(PublicationYear,ReleaseYear,CollectionYear,na.rm=TRUE)) %>%
   filter(!(Year==Inf)) -> clo
@@ -167,7 +168,7 @@ falseSpecData <- ggplot() +
 falseSpecData # preview
 
 
-{cairo_pdf("Figures/false-specialists_analytic_data.pdf", width=6.5, height=3)
+{cairo_pdf("./Figures/false-specialists_analytic_data.pdf", width=6.5, height=3)
 
 ggdraw() + draw_plot(falseSpecSurf, 0, 0, 0.45, 1) + draw_plot(falseSpecData , 0.45, 0, 0.55, 1) + draw_plot_label(label=c("A", "B"), x=c(0,0.45), y=1)
 

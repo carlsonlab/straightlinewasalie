@@ -22,6 +22,7 @@ virion %>%
   filter(DetectionMethod %in% c("PCR/Sequencing","Isolation/Observation")) %>%
   filter(HostClass=='mammalia') %>%
   filter(!(Host=='homo sapiens')) %>%
+  filter(!is.na(Host), !is.na(Virus)) %>%
   rowwise() %>%
   mutate(Year = min(PublicationYear,ReleaseYear,CollectionYear,na.rm=TRUE)) %>% 
   filter(!(Year==Inf)) -> clo

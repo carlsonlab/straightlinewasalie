@@ -4,7 +4,7 @@ library(codependent)
 library(tidyverse)
 library(patchwork)
 
-setwd("~/Documents/Github/straightlinewasalie")
+# setwd("~/Documents/Github/straightlinewasalie")
 
 # 1. Robertson 1929: plant-pollinator interactions
 
@@ -51,11 +51,11 @@ toju <- toju[,c(1:2)]
 
 # 4. Host-helminth relationships
 
-helminths.raw <- read.csv('./Data/Edgelists/helminths.csv')
-helminths <- helminths.raw[helminths.raw$group=='Nematoda',]
+helminths.raw <- read.csv('./Data/Edgelists/helminth associations cleaned v2.csv')
+helminths <- helminths.raw[helminths.raw$group=='Nematodes',]
 helminths <- helminths[helminths$hostgroup=='Mammalia',]
-helminths <- na.omit(helminths)
 helminths <- helminths[,c(2,3)]
+helminths <- na.omit(helminths)
 helminths <- unique(helminths)
 
 # We're gonna try to make these functions because that's the easiest thing to do, I guess
@@ -268,3 +268,4 @@ left1 + top2 + top4 + top3 +
 
 ggsave("Figures/curve-fitting.pdf", width = 13, height = 12)
 ggsave("Figures/curve-fitting.jpg", width = 13, height = 12, dpi = 600)
+

@@ -4,7 +4,12 @@ library(MetBrewer)
 library(cowplot)
 library(patchwork)
 
-h <- read_csv("./straightlinewasalie/Data/helminths.csv")
+helminths.raw <- read.csv('./Data/Edgelists/helminth associations cleaned v2.csv')
+helminths <- helminths.raw[helminths.raw$group=='Nematodes',]
+helminths <- helminths[helminths$hostgroup=='Mammalia',]
+helminths <- helminths[,c(2,3)]
+helminths <- na.omit(helminths)
+h <- unique(helminths)
 
 # Total values
 
@@ -172,10 +177,10 @@ extinction_df %>%
   geom_line(size = 1, alpha = 0.9) + 
   theme_bw() + 
   ylim(0,1) + 
-  xlab("Host extinction rate") + ylab("Proportion of coextinctions by specialists") +
+  xlab("Host extinction rate") + ylab("Specialist proportion of coextinctions") +
   scale_color_gradientn(colors = cols, name = "Proportion\nof hosts \nsampled\n") -> panel4
 
 # (panel1 + panel2) / (panel3 + panel4) + plot_layout(guides = 'collect')
 
-(panel1 + panel2 + panel4) + plot_layout(guides = 'collect')
-ggsave("./straightlinewasalie/Figures/coextinction.pdf", width = 11.5, height = 3.5)
+panel1 + panel2 + panel4 + plot_layout(guides = 'collect') + plot_annotation(tag_levels = c("A", "B", "C")) & theme(plot.tag = element_text(face = "bold", size = 18))
+ggsave("./Figures/coextinction.pdf", width = 11.5, height = 3.5)
