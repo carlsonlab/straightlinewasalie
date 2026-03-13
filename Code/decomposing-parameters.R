@@ -74,29 +74,7 @@ for (j in 1:reps) {
   }
 }
 
-### MECHANISTIC MODEL
 
-H <- n.hosts
-Hg <- h %>% filter(Parasite %in% gens) %>% pull(Host) %>% unique() %>% length()
-alphag <-  h %>% filter(Parasite %in% gens) %>% count(Host) %>% pull(n) %>% mean()
-etag <- h %>% filter(Parasite %in% gens) %>% count(Parasite) %>% pull(n) %>% mean()
-As <- n.specs
-
-A <- alphag*Hg/H
-B <- (etag - 1)/(H)
-C <- As/H
-
-est.s <- function(x) {C*x}
-est.g <- function(x) {A*x/(1 + B*x)}
-est.hpg <- function(x) {1+B*x}
-est <- function(x) {A*x/(1 + B*x) + C*x}
-est <- data.frame(h = 1:H, 
-                  p = sapply(c(1:H), est),
-                  s = sapply(c(1:H), est.s),
-                  g = sapply(c(1:H), est.g),
-                  phs = C,
-                  phg = alphag,
-                  hpg = sapply(c(1:H), est.hpg))
 
 ### GRAPHS
 
