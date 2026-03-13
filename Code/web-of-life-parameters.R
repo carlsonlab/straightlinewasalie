@@ -11,7 +11,7 @@ library(cowplot)
 # Organize network datasets
 
 netfiles <- list.files("Data/Edgelists/web-of-life_2025-11-16_214145")
-networks <- netfiles[(grepl("A_HP", netfiles) | grepl("M_", netfiles))]
+networks <- netfiles[(grepl("A_HP", netfiles) | grepl("A_PH", netfiles) | grepl("M_", netfiles))]
 
 refs <- read_csv("Data/Edgelists/web-of-life_2025-11-16_214145/references.csv") %>%
   select(ID, `Type of interactions`) %>%
@@ -439,6 +439,46 @@ dev.off()
 
 
 
+#### constraints 2 supp fig
+
+beths <- c("#C4C3C1", "#7D523A","#F3CF26","#2D4E7B","#7079B2","#54B2D8","#2F7858","#6D8842","#8BAA81","#E23639","#DF6F85")
+
+scatter_m <- ggplot(network_subset, aes(x = prop_s, y = modularity_generalists, color = type)) +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  theme_bw() +
+  labs(x="Proportion of specialists", y="Modularity (generalists)") +
+  scale_fill_manual(values = beth0, name = NULL) +
+  guides(fill = guide_legend(override.aes = list(size=5)))
+
+scatter_c <- ggplot(network_subset, aes(x = prop_s, y = connectance_generalists, color = type)) +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  theme_bw() +
+  labs(x="Proportion of specialists", y="Connectance (generalists)") +
+  scale_fill_manual(values = beth0, name = NULL) +
+  guides(fill = guide_legend(override.aes = list(size=5)))
+
+scatter_n <- ggplot(network_subset, aes(x = prop_s, y = nestedness_generalists, color = type)) +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  theme_bw() +
+  labs(x= "Proportion of specialists", y="Nestedness (generalists)") +
+  scale_fill_manual(values = beth0, name = NULL) +
+  guides(fill = guide_legend(override.aes = list(size=5)))
+
+scatter <- scatter_c + scatter_m + scatter_n  + plot_layout(guides = 'collect') & theme(legend.position = 'top', legend.text = element_text(size = 11), legend.key.height = unit(1, 'cm'))
+
+ggsave("./Figures/constraints2.pdf", width = 10, height = 4)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -448,47 +488,49 @@ network_subset_2 <- network_data %>%
   mutate(type = recode(type, !!!c("Pollination" = "Plant-Pollinator",
                                   "Seed Dispersal" = "Plant-Seed Disperser")))
 
+beth1 = beths[c(2,11,10,8,6,3)]
+
 network_subset_2 %>%
   ggplot(aes(y = z, x = prop_s, color = type)) +
-  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
   theme_bw() +
   xlab("Proportion of specialists") + ylab("Power law exponent (z)") +
-  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
-  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  scale_fill_manual(values = beth1, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5))) -> p1
 network_subset_2 %>%
   ggplot(aes(y = z, x = sigma_s, color = type)) +
-  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
   theme_bw() +
   xlab("Specialist symbionts per host (log10)") + ylab("Power law exponent (z)") +
-  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
-  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  scale_fill_manual(values = beth1, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5))) +
   scale_x_log10() -> p2
 network_subset_2 %>%
   ggplot(aes(y = z, x = sigma_g, color = type)) +
-  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
   theme_bw() +
   xlab("Generalist symbionts per host (log10)") + ylab("Power law exponent (z)") +
-  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
-  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  scale_fill_manual(values = beth1, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5))) +
   scale_x_log10() -> p3
 network_subset_2 %>%
   ggplot(aes(y = z, x = eta_g, color = type)) +
-  geom_point(aes(fill = type), size = 2, stroke = 0.5, shape = 21, alpha = 0.7, color = 'gray20') +
+  geom_point(aes(fill = type), size = 2.5, stroke = 0.5, shape = 21, alpha = 1, color = 'white') +
   theme_bw() +
   xlab("Average host range of generalists (log10)") + ylab("Power law exponent (z)") +
-  geom_smooth(method = 'lm', color = 'gray20', fill = 'black') +
-  scale_fill_manual(values = beths[c(4,1,7,2,6,5)], name = NULL) +
+  geom_smooth(method = 'lm', color = "white", fill = 'black', linewidth=0.5) +
+  scale_fill_manual(values = beth1, name = NULL) +
   guides(fill = guide_legend(override.aes = list(size=5))) +
   scale_x_log10() -> p4
 
-((p1+p2)/(p3+p4)) + plot_layout(guides='collect') & theme(legend.position = 'bottom', legend.text = element_text(size = 9.5))
+((p1+p2)/(p3+p4)) + plot_layout(guides='collect') & theme(legend.position = 'top', legend.text = element_text(size = 9))
 
 
 ggsave(filename = "~/Documents/Github/straightlinewasalie/Figures/power-law-exponents.pdf",
-       width = 10, height = 11, units = "in")
+       width = 7, height = 7.5, units = "in")
 
 
 summary(lm(z ~ prop_s + log10(sigma_s) + log10(sigma_g) + log10(eta_g), data = network_subset_2))

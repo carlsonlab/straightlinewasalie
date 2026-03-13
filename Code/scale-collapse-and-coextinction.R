@@ -5,8 +5,7 @@ library(cowplot)
 library(patchwork)
 
 helminths.raw <- read.csv('./Data/Edgelists/helminth associations cleaned v2.csv')
-helminths <- helminths.raw[helminths.raw$group=='Nematodes',]
-helminths <- helminths[helminths$hostgroup=='Mammalia',]
+helminths <- helminths.raw[helminths.raw$hostgroup %in% c("Amphibia","Aves","Chondrichthyes","Osteichthyes","Reptilia","Mammalia"),]
 helminths <- helminths[,c(2,3)]
 helminths <- na.omit(helminths)
 h <- unique(helminths)
