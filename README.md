@@ -2,7 +2,21 @@
 
 ## Repository organization
 
+| Figure        | Script        | Output File   |
+| ------------- | ------------- | ------------- |
+| Figure 1      | closed-form-parameters.R  | symbiont-subsets.pdf |
+| Figure 2      | web-of-life-parameters.R  | constraints.pdf  |
+| Figure 3      | estimate-viral-diversity.R  | virus-diversity-wide.pdf  |
+| Figure 4      | virion-false-specialists.R  | false-specialists_analytic_data.pdf  |
+| Figure 5      | scale-collapse-and-coextinction.R  | coextinction.pdf  |
+| Figure S1      | decomposing-parameters.R  | parameters.pdf  |
+| Figure S2      | web-of-life-parameters.R  | power-law-exponents.pdf  |
+| Figure S3      | toju-again-no-problem.R  | curve-fitting.pdf  |
+| Figure S4      | | |
+| Figure S5      | helminths-revisited.R | virion-change-through-time.pdf |
+| Figure S6      | virion-time-change.R | poulin.pdf |
 
+Note: `virion-chao.R` and `false-specialist-functions.R` conduct additional analyses shown in the text.
 
 ## Repository name
 
