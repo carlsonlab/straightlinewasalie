@@ -12,7 +12,7 @@
 | Figure S1      | decomposing-parameters.R  | parameters.pdf  |
 | Figure S2      | web-of-life-parameters.R  | power-law-exponents.pdf  |
 | Figure S3      | toju-again-no-problem.R  | curve-fitting.pdf  |
-| Figure S4      | | |
+| Figure S4      | web-of-life-parameters.R  | constraints2.pdf |
 | Figure S5      | helminths-revisited.R | virion-change-through-time.pdf |
 | Figure S6      | virion-time-change.R | poulin.pdf |
 
