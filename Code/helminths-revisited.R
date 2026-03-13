@@ -1,7 +1,7 @@
 
 library(tidyverse)
 
-# setwd("~/Documents/Github/straightlinewasaline")
+# setwd("~/Documents/Github/straightlinewasalie")
 
 h <- read_csv("./Data/Edgelists/helminth associations cleaned v2.csv")
 d <- read_csv("./Data/Dobson.csv") %>%
@@ -11,6 +11,14 @@ h %>% mutate(hostgroup = recode(hostgroup, !!!c("Chondrostei" = "Osteichthyes",
                                                 "Cladistei" = "Osteichthyes",
                                                 "Holostei" = "Osteichthyes",
                                                 "Teleostei" = "Osteichthyes"))) -> h
+
+h %>% 
+  filter(hostgroup %in% c("Amphibia","Aves","Chondrichthyes","Osteichthyes","Reptilia","Mammalia")) %>%
+  filter(!is.na(Host),!is.na(Parasite)) %>%
+  select(Host, Parasite) %>% distinct() -> hstats
+length(unique(hstats$Host))
+length(unique(hstats$Parasite))
+
 
 d$NHMPPH <-NA
 d$NHMHPP <-NA
